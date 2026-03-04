@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/akatsuki/Documents/Modern CPP/unique_ptr/build",
+  "command": "/usr/bin/c++   -g -std=gnu++20 -arch arm64 -o CMakeFiles/unique_ptr.dir/unique_ptr.cpp.o -c \"/Users/akatsuki/Documents/Modern CPP/unique_ptr/unique_ptr.cpp\"",
+  "file": "/Users/akatsuki/Documents/Modern CPP/unique_ptr/unique_ptr.cpp",
+  "output": "CMakeFiles/unique_ptr.dir/unique_ptr.cpp.o"
+}
+]
