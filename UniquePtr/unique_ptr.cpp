@@ -43,7 +43,7 @@ struct UniquePtr {
 private:
     T *m_p;
     std::function<void (T *)> m_deleter; // 使用函数指定析构的方式
-    
+
     template<class U, class UDeleter>
     friend struct UniquePtr; // 相同的类都是朋友
 public:
@@ -83,22 +83,22 @@ public:
     }
     // 拷贝构造函数
     UniquePtr(UniquePtr const &that) = delete;
-    
+
     // 拷贝赋值函数
     UniquePtr &operator=(UniquePtr const &that) = delete;
-    
+
     // 移动构造函数
     UniquePtr(UniquePtr &&that) {
         m_p = std::exchange(that.m_p, nullptr);
     }
-    
+
     // 移动赋值
     UniquePtr &operator=(UniquePtr &&that) {
         if (this != &that) [[likely]] {
             if (m_p) {
                 // fclose(m_p);
                 Deleter{}(m_p); // 构造一个Deleter对象并调用，不直接fclose
-            } 
+            }
             m_p = std::exchange(that.m_p, nullptr);
             puts(__PRETTY_FUNCTION__);
         }
@@ -169,35 +169,35 @@ UniquePtr<T> make_Unique_for_overwrite() {
 // 以上实现了Unique_ptr
 
 // 常见用途：在vector里存指向多态类的指针（多态类必须依靠指针来使用）
-struct Animal {
-    virtual void speak() = 0;
-    virtual ~Animal() = default;
-};
+// struct Animal {
+//     virtual void speak() = 0;
+//     virtual ~Animal() = default;
+// };
 
-struct Dog : Animal {
-    int age;
-    Dog(int age_) : age(age_) {}
-    virtual void speak() {
-        // puts("Bark!");
-        printf("Bark!, I'm %d years old.\n", age);
-    }
-};
+// struct Dog : Animal {
+//     int age;
+//     Dog(int age_) : age(age_) {}
+//     virtual void speak() {
+//         // puts("Bark!");
+//         printf("Bark!, I'm %d years old.\n", age);
+//     }
+// };
 
-struct Cat : Animal {
-    int &age; // 引用，外部增长了里面也能增长
-    Cat(int &age_) : age(age_) {}
-    virtual void speak() {
-        // puts("Meow!");
-        printf("Meow!, I'm %d years old.\n", age);
-    }
-};
+// struct Cat : Animal {
+//     int &age; // 引用，外部增长了里面也能增长
+//     Cat(int &age_) : age(age_) {}
+//     virtual void speak() {
+//         // puts("Meow!");
+//         printf("Meow!, I'm %d years old.\n", age);
+//     }
+// };
 
 int main() {
     // auto a = UniquePtr<FILE>(fopen("a.txt", "r"));
     // auto arr = UniquePtr<int[]>(new int[2]);
     // auto arr = UniquePtr<int>(new int(42));
     // std::cout << (char)fgetc(a.get()) << std::endl;
-    
+
     // int i;
     // auto p = UniquePtr<int>(&i); // 不可以，为了防止出错已经用explicit显式声明
     // auto p = UniquePtr<int>(new int(42)); // 可以
@@ -239,8 +239,8 @@ int main() {
     // 使用万能引用 &&
     // 因此猫的年龄随着main中age增长而增长（传入引用），狗不会（传值，类里面的age只是副本）
 
-    UniquePtr<FILE> fp(fopen("a.txt", "r"));
-    fp.reset();
+    // UniquePtr<FILE> fp(fopen("a.txt", "r"));
+    // fp.reset();
 
     // 此时希望reset可以打开另一个文件
 
